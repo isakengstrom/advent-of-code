@@ -1,7 +1,7 @@
 
 fn main() {
     let mut input = std::fs::read_to_string("input.txt").expect("Inputs loaded");
-    
+
     // input may have a disgusting bom char in the beginning. If so, remove it  
     if input.starts_with('\u{feff}') {
         input.remove(0);
