@@ -11,7 +11,7 @@ fn main() {
         .skip(1)
         .position(|m| HashSet::<char>::from_iter(m.iter().map(|c| *c))
             .len() == MARKER_LENGTH
-        ) // Find first occurrence when window has 4 uniques  
+        ) // Find first occurrence when window has the correct number of uniques
         .unwrap();
     
     let marker_end_index = marker_start_index + MARKER_LENGTH;
