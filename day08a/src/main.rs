@@ -35,5 +35,4 @@ fn main() {
     let total_count = edge_count + interior_count;
 
     println!("{total_count}")
-    
 }
