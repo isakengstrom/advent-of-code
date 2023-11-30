@@ -3,7 +3,6 @@ fn main() {
     //let input = include_str!("../input.example.txt");
     let input = include_str!("../input.txt");
 
-
     let mut circuits: Vec<i32> = vec![];
 
     for instruction_line in input.lines() {
