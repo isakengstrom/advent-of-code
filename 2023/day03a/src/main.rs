@@ -34,7 +34,6 @@ fn main() {
                 let value = number;
                 if table.contains_key(&key.clone()) {
                     break
-                    //continue
                 }
                 table.insert(key.clone(), value);
                 //println!("key {key}, value {value}")
@@ -43,15 +42,11 @@ fn main() {
     }
 
     let mut result: u32 = 0;
-
-    //let mut whet: Vec<char> = vec![];
     for (schematic_row_index, schematic_row) in input.lines().enumerate() {
         for (schematic_col_index, schematic_symbol) in schematic_row.chars().enumerate() {
             if schematic_symbol.is_ascii_digit() || schematic_symbol == '.' {
                 continue
             }
-
-            //whet.push(schematic_symbol);
 
             let keys_above: Vec<String> = vec![
                 format!("{}:{}", schematic_row_index as i32 -1, schematic_col_index as i32 -1),
@@ -59,24 +54,26 @@ fn main() {
                 format!("{}:{}", schematic_row_index as i32 -1, schematic_col_index as i32 +1),
             ];
 
-
             let mut above_values: Vec<u32> = vec![];
             for above_key in keys_above {
-                if above_key.contains('-') {
-                    continue
-                }
-                if table.contains_key(&above_key) {
-                    above_values.push(*table.get(&above_key).unwrap())
-                }
-                else {
-                    above_values.push(0);
-                }
+                let value = table.get(&above_key).map_or(0, |&v| v);
+                above_values.push(value);
             }
             above_values.dedup();
+            result += above_values.into_iter().sum::<u32>();
 
-            for above_value in above_values {
-                result += above_value;
+
+            let keys_in_same_row: Vec<String> = vec![
+                format!("{}:{}", schematic_row_index as i32, schematic_col_index as i32 -1),
+                format!("{}:{}", schematic_row_index as i32, schematic_col_index as i32 +1),
+            ];
+
+            for in_row_key in keys_in_same_row {
+                if table.contains_key(&in_row_key){
+                    result += table.get(&in_row_key).unwrap();
+                }
             }
+
 
             let keys_below: Vec<String> = vec![
                 format!("{}:{}", schematic_row_index as i32 +1, schematic_col_index as i32 -1),
@@ -86,37 +83,12 @@ fn main() {
 
             let mut below_values: Vec<u32> = vec![];
             for below_key in keys_below {
-                if below_key.contains('-') {
-                    continue
-                }
-                if table.contains_key(&below_key) {
-                    below_values.push(*table.get(&below_key).unwrap())
-                }
-                else {
-                    below_values.push(0);
-                }
+                let value = table.get(&below_key).map_or(0, |&v| v);
+                below_values.push(value);
             }
             below_values.dedup();
-
-            for below_value in below_values {
-                result += below_value;
-            }
-
-            let keys_in_row: Vec<String> = vec![
-                format!("{}:{}", schematic_row_index as i32, schematic_col_index as i32 -1),
-                format!("{}:{}", schematic_row_index as i32, schematic_col_index as i32 +1),
-            ];
-
-            for in_row_key in keys_in_row {
-                if in_row_key.contains('-') {
-                    continue
-                }
-                if table.contains_key(&in_row_key){
-                    result += table.get(&in_row_key).unwrap();
-                }
-            }
+            result += below_values.into_iter().sum::<u32>();
         }
     }
     println!("{result}")
-    // 530537
 }
