@@ -66,7 +66,7 @@ fn part_2(parsed: HashMap<&str, u32>) -> u64 {
         let hand = min_heap.pop().unwrap().value;
         let bid = parsed.get(hand.as_str()).unwrap();
         result += ((index as u32 + 1) * bid) as u64;
-        println!("hand {index}: {hand} - {bid}")
+        //println!("hand {index}: {hand} - {bid}")
     }
 
     return result
@@ -92,21 +92,43 @@ mod tests {
         assert_eq!(part_1(parsed.clone()), 6592);
     }
 
+    /*
+        Correct order:
+        - 32T3K
+        - KK677
+        - T55J5
+        - QQQJA
+        - KTJJT
+    */
     #[test]
     fn test_2_output_should_be_correct() {
         let input = include_str!("../input.example.txt");
         let parsed = parse(input);
         assert_eq!(part_2(parsed), 5905)
     }
-    /*
-    correct order part 2:
-    - 32T3K
-    - KK677
-    - T55J5
-    - QQQJA
-    - KTJJT
-     */
 
+    /*
+       correct order:
+       - 2345A 1
+       - J345A 2
+       - 2345J 3
+       - 32T3K 5
+       - KK677 7
+       - T3Q33 11
+       - Q2KJJ 13
+       - T3T3J 17
+       - Q2Q2Q 19
+       - 2AAAA 23
+       - T55J5 29
+       - QQQJA 31
+       - KTJJT 34
+       - JJJJJ 37
+       - JJJJ2 41
+       - JAAAA 43
+       - 2JJJJ 53
+       - AAAAJ 59
+       - AAAAA 61
+    */
     #[test]
     fn test_2_output_should_be_correct_extra_input_1() {
         let input = include_str!("../input.example.1.txt");
@@ -114,26 +136,20 @@ mod tests {
         assert_eq!(part_2(parsed), 6839)
     }
 
+
     /*
-    correct order:
-    - 2345A 1
-    - J345A 2
-    - 2345J 3
-    - 32T3K 5
-    - KK677 7
-    - T3Q33 11
-    - Q2KJJ 13
-    - T3T3J 17
-    - Q2Q2Q 19
-    - 2AAAA 23
-    - T55J5 29
-    - QQQJA 31
-    - KTJJT 34
-    - JJJJJ 37
-    - JJJJ2 41
-    - JAAAA 43
-    - 2JJJJ 53
-    - AAAAJ 59
-    - AAAAA 61
+        Correct order:
+        - KK677 7
+        - T3Q33 11
+        - Q2KJJ 13
+        - T3T3J 17
+        - Q2Q2Q 19
+        - 2AAAA 23
      */
+    #[test]
+    fn test_2_output_should_be_correct_extra_input_2() {
+        let input = include_str!("../input.example.2.txt");
+        let parsed = parse(input);
+        assert_eq!(part_2(parsed), 369)
+    }
 }

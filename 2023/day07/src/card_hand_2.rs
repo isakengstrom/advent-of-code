@@ -56,55 +56,18 @@ impl CardHand2 {
 
         let self_card_occurrences = Self::count_hand(self_hand.as_str());
         let other_card_occurrences = Self::count_hand(other_hand.as_str());
+        let min_length = cmp::min(self_card_occurrences.len(), other_card_occurrences.len());
 
-        let self_js: Vec<_> = self_card_occurrences.iter().filter(|co| co.0 == 'J').collect();
-        let other_js: Vec<_> = other_card_occurrences.iter().filter(|co| co.0 == 'J').collect();
-
-        let self_non_js: Vec<_> = self_card_occurrences.iter().filter(|co| co.0 != 'J').collect();
-        let other_non_js: Vec<_> = other_card_occurrences.iter().filter(|co| co.0 != 'J').collect();
-
-        let self_js_count = if !self_js.is_empty() { self_js[0].1 } else { 0 };
-        let other_js_count = if !other_js.is_empty() { other_js[0].1 } else { 0 };
-
-        //let first_self_card_is_j = self_card_occurrences[0].0 == 'J';
-        //let first_other_card_is_j = other_card_occurrences[0].0 == 'J';
-
-        if self_js_count == 5 && other_non_js[0].1 < 5 {
-            return Ordering::Less
-        }
-
-        if other_js_count == 5 && self_non_js[0].1 < 5 {
-            return Ordering::Greater
-        }
-
-        if self_js_count == 5 && other_non_js[0].1 == 5 {
-            return Ordering::Greater
-        }
-
-        if other_js_count == 5 && self_non_js[0].1 == 5 {
-            return Ordering::Less
-        }
-
-
-        let min_length = cmp::min(self_non_js.len(), other_non_js.len());
         // Score if card types are different
         for index in 0..min_length{
+            let self_card_occurrence = self_card_occurrences[index];
+            let other_card_occurrence = other_card_occurrences[index];
 
-            let self_card_occurrence = self_non_js[index];
-            let other_card_occurrence = other_non_js[index];
-
-            //let self_is_j = self_card_occurrence.0 == 'J';
-            //let other_is_j = other_card_occurrence.0 == 'J';
-
-            let self_card_count = self_card_occurrence.1 + self_js_count;
-            let other_card_count = other_card_occurrence.1 + other_js_count;
             // Reverse ordering, to get Min-heap
-            if self_card_count > other_card_count {
-                //println!("1 -> {self_hand} higher than {other_hand} -> {self_card_count} vs {other_card_count} at {index}");
+            if self_card_occurrence.1 > other_card_occurrence.1 {
                 return Ordering::Less
             }
-            else if self_card_count < other_card_count {
-                //println!("2 -> {other_hand} higher than {self_hand} -> {other_card_count} vs {self_card_count} at {index}");
+            else if self_card_occurrence.1 < other_card_occurrence.1 {
                 return Ordering::Greater
             }
         }
@@ -120,11 +83,9 @@ impl CardHand2 {
 
             // Reverse ordering, to get Min-heap
             if ordering.is_gt() {
-                //println!("3 -> {self_hand} higher than {other_hand}");
                 return Ordering::Less
             }
             else if ordering.is_lt() {
-                //println!("4 -> {other_hand} higher than {self_hand}");
                 return Ordering::Greater
             }
         }
@@ -140,9 +101,21 @@ impl CardHand2 {
     }
 
     fn count_hand(hand: &str) -> Vec<(char, usize)> {
+        // The only time a hand with J's is counted as a hand without J, is when all cards are J.
+        // Other times, J's are removed from the hand, but the number of J's are added to the count
+        // of the non-J card that occurs the most in the hand.
+        if hand == "JJJJJ" {
+            return Vec::from([('J', 5)])
+        }
+
         let mut card_counts = HashMap::with_capacity(5);
 
         for card in hand.chars() {
+            // Skip adding J's
+            if card == 'J' {
+                continue
+            }
+
             let count = card_counts.entry(card).or_insert(0);
             *count += 1;
         }
@@ -150,6 +123,10 @@ impl CardHand2 {
         let mut card_counts_vec: Vec<(char, usize)> = card_counts.into_iter().collect();
         // Sort by count in descending order
         card_counts_vec.sort_by(|a, b| b.1.cmp(&a.1));
+
+        // Add the number of J's to the count of the non-J card that occurs the most in the hand.
+        let j_count = hand.chars().filter(|c| *c == 'J').count();
+        card_counts_vec[0].1 += j_count;
 
         card_counts_vec
     }
