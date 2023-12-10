@@ -82,14 +82,14 @@ mod tests {
     fn part_1_output_should_be_correct() {
         let input = include_str!("../input.example.txt");
         let parsed = parse(input);
-        assert_eq!(part_1(parsed.clone()), 6440);
+        assert_eq!(part_1(parsed), 6440);
     }
 
     #[test]
     fn part_1_output_should_be_correct_extra_input_1() {
         let input = include_str!("../input.example.1.txt");
         let parsed = parse(input);
-        assert_eq!(part_1(parsed.clone()), 6592);
+        assert_eq!(part_1(parsed), 6592);
     }
 
     /*
