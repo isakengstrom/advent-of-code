@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 
 fn main() {
-
     let input = include_str!("../input.txt");
 
     println!("Part 1: {}", part_1(input.clone(), 2));
@@ -144,12 +143,6 @@ mod tests {
             let actual_y_coord = actual_galaxies[i].1;
             let expected_x_coord = expected_galaxies[i].0;
             let expected_y_coord = expected_galaxies[i].1;
-
-            if actual_x_coord != expected_x_coord {
-                println!("actual {actual_x_coord} expected {expected_x_coord}, i {i}");
-                println!("actual gal {:?}", actual_galaxies);
-                println!("expected gal {:?}", expected_galaxies);
-            }
 
             assert_eq!(actual_x_coord, expected_x_coord);
             assert_eq!(actual_y_coord, expected_y_coord);
