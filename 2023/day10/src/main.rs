@@ -62,6 +62,38 @@ mod tests {
     use super::*;
 
     #[test]
+    fn part_2_output_should_be_correct_for_example_input_p2_0()
+    {
+        let input = include_str!("../input.example.p2.0.txt");
+        let parsed = parse(input);
+        assert_eq!(part_2(parsed), 4);
+    }
+
+    #[test]
+    fn part_2_output_should_be_correct_for_example_input_p2_1()
+    {
+        let input = include_str!("../input.example.p2.1.txt");
+        let parsed = parse(input);
+        assert_eq!(part_2(parsed), 4);
+    }
+
+    #[test]
+    fn part_2_output_should_be_correct_for_example_input_p2_2()
+    {
+        let input = include_str!("../input.example.p2.2.txt");
+        let parsed = parse(input);
+        assert_eq!(part_2(parsed), 8);
+    }
+
+    #[test]
+    fn part_2_output_should_be_correct_for_example_input_p2_3()
+    {
+        let input = include_str!("../input.example.p2.3.txt");
+        let parsed = parse(input);
+        assert_eq!(part_2(parsed), 10);
+    }
+
+    #[test]
     fn part_1_output_should_be_correct_for_example_input_0()
     {
         let input = include_str!("../input.example.0.txt");
@@ -76,8 +108,6 @@ mod tests {
         let parsed = parse(input);
         assert_eq!(part_1(parsed), 4);
     }
-
-
 
     #[test]
     fn part_1_output_should_be_correct_for_example_input_2()
@@ -94,12 +124,4 @@ mod tests {
         let parsed = parse(input);
         assert_eq!(part_1(parsed), 8);
     }
-
-    //#[test]
-    //fn part_2_output_should_be_correct_for_example_input_0()
-    //{
-    //    let input = include_str!("../input.example.0.txt");
-    //    let parsed = parse(input);
-    //    assert_eq!(part_2(parsed), 2);
-    //}
 }
